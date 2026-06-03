@@ -1,1 +1,33 @@
 .vscode/
+
+# Pliki tymczasowe i logi budowania LaTeXa
+*.aux
+*.bbl
+*.blg
+*.brf
+*.bcf
+*.cb
+*.cb2
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.toc
+
+# Narzędzia (np. latexmk)
+*.fdb_latexmk
+
+# SyncTeX
+*.synctex.gz
+*.synctex(busy)
+
+# Opcjonalnie pliki wynikowe (jeśli nie chcesz wersjonować pdf-ów)
+# *.pdf
+*.ps
+*.dvi
+*.xdv
