@@ -1,5 +1,5 @@
 .vscode/
-
+.DS_Store
 # Pliki tymczasowe i logi budowania LaTeXa
 *.aux
 *.bbl
