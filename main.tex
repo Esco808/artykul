@@ -7,47 +7,32 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{graphicx}
-% Used for displaying a sample figure. If possible, figure files should
-% be included in EPS format.
-%
-% If you use the hyperref package, please uncomment the following line
-% to display URLs in blue roman font according to Springer's eBook style:
-% \renewcommand\UrlFont{\color{blue}\rmfamily}
+
 
 \begin{document}
 %
-\title{Contribution Title\thanks{Supported by organization x.}}
+\title{Analiza porównawczna nienadzorowanego wykrywania metod oszustw kredytowych}
+
 %
-%\titlerunning{Abbreviated paper title}
-% If the paper title is too long for the running head, you can set
-% an abbreviated paper title here
+\author{Szymon Oleszek\inst{1}\orcidID{0000-1111-2222-3333} \and
+Maciej Ołdakowski\inst{2}\orcidID{1111-2222-3333-4444} \and
+Paweł Ostrowski†\inst{3}\orcidID{2222--3333-4444-5555}}
 %
-\author{First Author\inst{1}\orcidID{0000-1111-2222-3333} \and
-Second Author\inst{2,3}\orcidID{1111-2222-3333-4444} \and
-Third Author\inst{3}\orcidID{2222--3333-4444-5555}}
-%
-\authorrunning{F. Author et al.}
-% First names are abbreviated in the running head.
-% If there are more than two authors, 'et al.' is used.
-%
-\institute{Princeton University, Princeton NJ 08544, USA \and
-Springer Heidelberg, Tiergartenstr. 17, 69121 Heidelberg, Germany
+
+\institute{Politechnika Lubelska \and
 \email{lncs@springer.com}\\
 \url{http://www.springer.com/gp/computer-science/lncs} \and
 ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
 \email{\{abc,lncs\}@uni-heidelberg.de}}
 %
-\maketitle              % typeset the header of the contribution
+\maketitle              
 %
 \begin{abstract}
-The abstract should briefly summarize the contents of the paper in
-150--250 words.
+Duże oraz niezbalansowane zbiory danych wymagają dużej mocy obliczniowej, czasu oraz dostępu do etykietowanych zbiorów. W przypadku transakcji bankowych dochodzą kwestia prywatności danych oraz brak balansu w zbiorze danych. W tym badaniu przedstawiamy podejście nauki i wykrywania poprzez model sztucznej inteligencji, ktora korzysta z etykiet wygenerowanych przez SHAP w celu wyłonienia najważniejszych etykiet z autoenkoderem do wygenerowania etykiet do wykrywania nieprawidłowości w transakcjach. Wykorzystujac publiczny dataset utworzyliśmy zbiory danych o różnych wielkościach, ze względu na ilość etykiet, wygenerowaliśmy dla nich etykiety i obliczyliśmy ich precyzję oraz trafność za pomocą Area Under the Precision-Recall Curve (AUPRC). Wyniki analizy ukazały, że wykorzystanie etykiet z SHAP pozwala na osiągnięcie znacznie lepszych wyników niż nauka na calym zbiorze danych poprzez model Isolation Forest (IF), którego użyto jako model porównawczy. Pokazuje nam to, że do dużych, niezbalanoswanych zbiorów, generowanie etykiet poprzez SHAP zwiększa jakość etykiet do wykrywania oszustw. Takie podejście pozwala na dokladniejsze wykrywanie potencjalnych oszustw w duzych niezbalansowanych zbiorach danych transakcji bankowych.
 
-\keywords{First keyword  \and Second keyword \and Another keyword.}
+\keywords{SHAP \and Wykrywanie oszustw transakcji bankowych \and Uczenie nienadzorowane \and Uczenie nadzorowane}
 \end{abstract}
-%
-%
-%
+\
 \section{First Section}
 \subsection{A Subsection Sample}
 Please note that the first paragraph of a section or subsection is
@@ -102,10 +87,8 @@ This is a sample theorem. The run-in heading is set in bold, while
 the following text appears in italics. Definitions, lemmas,
 propositions, and corollaries are styled the same way.
 \end{theorem}
-%
-% the environments 'definition', 'lemma', 'proposition', 'corollary',
-% 'remark', and 'example' are defined in the LLNCS documentclass as well.
-%
+
+
 \begin{proof}
 Proofs, examples, and remarks have the initial word in italics,
 while the following text appears in normal font.
@@ -119,15 +102,8 @@ book~\cite{ref_book1}, proceedings without editors~\cite{ref_proc1},
 and a homepage~\cite{ref_url1}. Multiple citations are grouped
 \cite{ref_article1,ref_lncs1,ref_book1},
 \cite{ref_article1,ref_book1,ref_proc1,ref_url1}.
-%
-% ---- Bibliography ----
-%
-% BibTeX users should specify bibliography style 'splncs04'.
-% References will then be sorted and formatted in the correct style.
-%
-% \bibliographystyle{splncs04}
-% \bibliography{mybibliography}
-%
+
+
 \begin{thebibliography}{8}
 \bibitem{ref_article1}
 Author, F.: Article title. Journal \textbf{2}(5), 99--110 (2016)
