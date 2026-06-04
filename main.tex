@@ -2,9 +2,10 @@
 %
 \usepackage{url}
 \usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
 \usepackage{lmodern}
 \usepackage{graphicx}
-
+\usepackage{microtype}
 
 \begin{document}
 %
@@ -21,7 +22,17 @@ Paweł Ostrowski}
 \maketitle              
 %
 \begin{abstract}
-Duże oraz niezbalansowane zbiory danych wymagają dużej mocy obliczeniowej, czasu oraz dostępu do etykietowanych zbiorów. W przypadku transakcji bankowych dochodzą jeszcze kwestie prywatności danych oraz brak balansu oszustw do realnych transakcji w zbiorze danych. W tym badaniu przedstawiamy podejście nauki oraz wykrywania poprzez model sztucznej inteligencji, która korzysta z etykiet wygenerowanych przez Shapley Additive exPlantations (SHAP) w celu wyłonienia najważniejszych etykiet z autoenkoderem do wygenerowania etykiet w celu wykrywania nieprawidłowości w transakcjach. Wykorzystując publiczny dataset utworzyliśmy zbiory danych o różnych wielkościach, ze względu na ilość etykiet, wygenerowaliśmy dla nich etykiety i obliczyliśmy ich precyzję oraz trafność za pomocą Area Under the Precision-Recall Curve (AUPRC). Wyniki analizy ukazały, że wykorzystanie etykiet z SHAP pozwala na osiągnięcie znacznie lepszych wyników niż nauka na calym zbiorze danych poprzez model Isolation Forest (IF), którego użyto jako model porównawczy. Pokazuje nam to, że do dużych, niezbalanoswanych zbiorów, generowanie etykiet poprzez SHAP zwiększa jakość etykiet do wykrywania oszustw. Takie podejście pozwala na dokładniejsze wykrywanie potencjalnych oszustw w dużych niezbalansowanych zbiorach danych transakcji bankowych.
+Duże oraz niezbalansowane zbiory danych wymagają dużej mocy obliczeniowej, czasu oraz dostępu do etykietowanych zbiorów.
+W~przypadku transakcji bankowych dochodzą jeszcze kwestie prywatności danych oraz brak balansu oszustw do realnych transakcji w zbiorze danych.
+W tym badaniu przedstawiamy podejście nauki oraz wykrywania poprzez model sztucznej inteligencji, która korzysta z etykiet
+wygenerowanych przez Shapley Additive exPlantations (SHAP) w celu wyłonienia najważniejszych etykiet z autoenkoderem
+do wygenerowania etykiet w celu wykrywania nieprawidłowości w transakcjach. Wykorzystując publiczny dataset utworzyliśmy
+zbiory danych o różnych wielkościach, ze względu na ilość etykiet, wygenerowaliśmy dla nich etykiety i obliczyliśmy ich precyzję
+oraz trafność za pomocą Area Under the Precision-Recall Curve (AUPRC). Wyniki analizy ukazały, że wykorzystanie etykiet z SHAP
+pozwala na osiągnięcie znacznie lepszych wyników niż nauka na całym zbiorze danych poprzez model Isolation Forest (IF),
+którego użyto jako model porównawczy. Pokazuje nam to, że do dużych, niezbalansowanych zbiorów, generowanie etykiet poprzez
+SHAP zwiększa jakość etykiet do wykrywania oszustw. Takie podejście pozwala na dokładniejsze wykrywanie potencjalnych oszustw
+w dużych niezbalansowanych zbiorach danych transakcji bankowych.
 
 \keywords{SHAP \and Wykrywanie oszustw transakcji bankowych \and Uczenie nienadzorowane \and Uczenie nadzorowane}
 \end{abstract}
