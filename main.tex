@@ -97,12 +97,50 @@ Postęp w uczeniu maszynowym może pomóc zmniejszyć te straty, umożliwiając 
 Ponadto, uczenie maszynowe oferuje korzyści z zakresu szybkości i jest w stanie zidentyfikować wzorce, które można przeoczyć w toku manualnej analizy.
 
 \section{Metodologia}
-\subsection{}
+Metodologia opisana w niniejszej pracy została zaprojektowana w celu generowania binarnych etykiet klas dla dużych zbiorów danych o wysokim stopniu niezbalansowania.
+Zastosowanie tej metody do zbiorów zrównoważonych wykracza poza zakres opracowania.
+W naszym podejściu łączymy selekcję cech SHAP z nienadzorowaną metodą etykietowania, aby poprawić jakość generowanych etykiet, co jest pierwszym tego typu badaniem w tej dziedzinie.
+
+Pierwszym krokiem jest nienadzorowane zastosowanie SHAP do wejściowego zbioru danych. Jedną z zalet tego podejścia jest to, że nie wymaga od nas posiadania wiedzy eksperckiej na temat atrybutów danych.
+Jest to szczególnie ważne, ponieważ nasze dane zostały zanonimizowane za pomocą analizy PCA i nie dysponujemy szczegółowymi informacjami o poszczególnych cechach.
+
+SHAP to metoda służąca do interpretacji modeli uczenia maszynowego, która przypisuje każdemu atrybutowi wartość, która reprezentuje jego wpływ na przewidywania modelu.
+W naszej pracy SHAP zapewnia zarówno interpretowalność globalną, dającą ogólny widok zachowania modelu w całym zbiorze danych, 
+jak i lokalną, która pozwala zrozumieć, jak każda cecha przyczyniła się do konkretnej prognozy.
+W procesie rankingowania cech stosujemy kombinację obu tych podejść, wykorzystując podzbiór danych do obliczenia wartości SHAP.
+Najpierw trenujemy nienadzorowany model Isolation Forest (IF) na całym zbiorze danych, używając wszystkich dostępnych cech, 
+a następnie stosujemy funkcję SHAP kernel explainer wraz z wybraną próbką danych.
+Następnie używamy funkcji na innym podzbiorze, aby stworzyć listę atrybutów i ich wartości SHAP, które pokazują wkład każdej cechy w działanie klasyfikatora.
+Ponieważ wartości te mogą być dodatnie lub ujemne, do pomiaru ich wielkości przyjmujemy wartości bezwzględne, a średnia z nich służy nam jako miara istotności cechy.
+
+Po określeniu istotności wszystkich cech wybieramy te najważniejsze zgodnie z ich średnią bezwzględną wartością SHAP.
+W naszych badaniach oceniliśmy warianty obejmujące 10, 15 oraz wszystkie 29 cech.
+Nasze podejście do etykietowania opiera się na autoenkoderze jako podstawowym nienadzorowanym modelu, 
+który uczy się wyłącznie na podstawie cech zbioru danych. Po zakończeniu treningu dla każdej instancji obliczamy metrykę błędu i szeregujemy je od najwyższego do najniższego wyniku.
+Błąd rekonstrukcji mierzy różnice między cechami wejściowymi a tymi zrekonstruowanymi przez dekoder autoenkodera.
+Przyjmujemy, że instancje o wyższym błędzie częściej kwalifikują się jako oszustwa, podczas gdy te o niższym błędzie to transakcje autentyczne, 
+co pozwala szeregować przypadki od najbardziej do najmniej podejrzanych.
+Ustalamy próg, powyżej którego instancje etykietujemy jako oszustwa, a pozostałe jako transakcje autentyczne. Całkowitą liczbę instancji oznaczonych jako pozytywne określamy jako P.
+Zakładamy, że wraz ze wzrostem wartości P będziemy generować etykiety lepszej jakości.
+
+W naszej pracy stosujemy w pełni połączony autoenkoder, który świetnie sprawdza się przy niezrównoważonych danych. 
+Podczas treningu enkoder uczy się kompresować dane wejściowe do reprezentacji o niższym wymiarze, a dekoder próbuje ją zrekonstruować do oryginalnej formy.
+Do pomiaru różnic między wejściem a wyjściem używamy błędu średniokwadratowego (MSE), który definiujemy jako średnią kwadratów różnic między wartościami rzeczywistymi a przewidywanymi.
+MSE oznaczamy jako \(MSE = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{x}_i)^2\), gdzie \(n\) oznacza liczbę obserwacji, 
+\(x_i\) jest \(i\)-tym elementem wejściowego wektora danych \(x\), a \(\hat{x}_i\) jest \(i\)-tym elementem wektora zrekonstruowanego przez autoenkoder.
+Autoenkoder trenujemy metodą wstecznej propagacji błędu, korygując wagi między neuronami tak, aby zminimalizować funkcję celu. Warstwa wejściowa ma rozmiar odpowiadający liczbie cech (10, 15 lub 29), 
+a sekcja enkodera składa się z dwóch warstw ukrytych o rozmiarach 100 i 50 neuronów z funkcją aktywacji ReLU
+
+Nasz model trenujemy przy współczynniku uczenia 0,0001, rozmiarze partii 256, używając optymalizatora Adam i funkcji straty MSE. 
+Wydzielamy 20\% danych jako zestaw walidacyjny i monitorujemy stratę treningową za pomocą funkcji EarlyStopping z cierpliwością ustawioną na 25 epok (maksymalnie do 250 epok).
+Do budowy i treningu sieci wykorzystujemy bibliotekę Keras. Podkreślamy, że zarówno na etapie selekcji cech SHAP, jak i w procesie działania autoenkodera, 
+nie używamy oryginalnych etykiet klas, co jest kluczowe dla zachowania nienadzorowanego charakteru metody.
+Ostatecznym wynikiem naszej metodologii są zbiory danych o zredukowanej przez SHAP liczbie cech wraz z nowo wygenerowanymi etykietami klas. 
+W naszych eksperymentach przygotowaliśmy 9 oddzielnych zbiorów danych, będących kombinacją zestawów 10, 15 i 29 cech oraz wartości parametru P ustawionych na 500, 1000 i 1500.
+
 \section{Analiza wyników}
 
 \section{Dyskusja}
-
-
 
 \begin{thebibliography}{8}
 \bibitem{ref-main-article}
