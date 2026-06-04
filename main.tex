@@ -37,10 +37,10 @@ w dużych niezbalansowanych zbiorach danych transakcji bankowych.
 \keywords{SHAP \and Wykrywanie oszustw transakcji bankowych \and Uczenie nienadzorowane \and Uczenie nadzorowane}
 \end{abstract}
 
-\section{Wprowadzenie}
+\section*{Wprowadzenie}
 Pozyskiwanie wysokiej jakości etykiet do klasyfikacji jest kluczowym zadaniem dla uczenia maszynowego.
 Proces etykietowania często bywa kosztownym, czasochłonnym i podatnym na błędy przedsięwzięciem.
-Jakość etykiet to ważny czynnik wpływający na wydajność modeli uczenia maszynowego, a nieodpowiednie etykiety mogą prowadzić do słabych wyników.
+Jakość etykiet to ważny czynnik wpływający na wydajność modeli uczenia maszynowego, a nieodpowiednie etykiety mogą prowadzić do mało miarodajnych wyników.
 Co więcej, znaczna część nowo tworzonych zbiorów danych jest domyślnie pozbawiona etykiet.
 Ta obfitość nieoznakowanych danych stanowi zarówno szansę, jak i wyzwanie dla uczenia maszynowego.
 Chociaż modele uczenia maszynowego często radzą sobie lepiej z większą ilością danych,
@@ -50,8 +50,8 @@ We wspomnianych dziedzinach dodatkowym problemem jest też prywatność danych, 
 przyznania ekspertom dostępu do danych, co może być niemożliwe ze względu na przepisy dotyczące prywatności.
 Kwestie prywatności ograniczają również publiczną dostępność finansowych zbiorów danych,
 takich jak zbiory transakcji kartami kredytowymi wykorzystywane do wykrywania oszustw.
-Nienadzorowane i zautomatyzowane podejście może rozwiązać te problemy.
-Ponieważ interakcja z człowiekiem nie jest wymagana, pozwala to na zachowanie prywatności.
+Nienadzorowane i zautomatyzowane podejście może rozwiązać te problemy,
+ponieważ interakcja z człowiekiem nie jest wymagana, co pozwala na zachowanie prywatności.
 Tego typu modele uczą się bezpośrednio z cech zestawu danych, a algorytmiczne etykietowanie łagodzi obawy dotyczące
 prywatności poprzez wyeliminowanie bezpośredniego zaangażowania człowieka.
 Jednak, chociaż nienadzorowane modele mogą być użyteczne, często nie osiągają tak dobrych wyników jak modele nadzorowane.
@@ -64,23 +64,23 @@ Poprzez identyfikację i zachowanie tylko najbardziej istotnych informacji, tech
 Uproszczony model zmniejsza koszt obliczeniowy, jest łatwiejszy w interpretacji i często ma wyższą wydajność.
 Jest to szczególne ważne w przypadku silnie niezbalansowanych danych.
 Niezbalansowanie klas, w odniesieniu do problemu klasyfikacji binarnej, występuje wtedy, gdy reprezentacja jednej
-klasy jest w znacznym stopniu zniekształcona w porównaniu z drugą. Zbiór danych może być uznany za niezbalansowany,
+klasy jest w znacznym stopniu zniekształcona w porównaniu z drugą. Zbiór danych może być uznany wtedy za niezbalansowany,
 jeśli proporcja między klasami przekracza 1:4. Poważne lub wysokie niezbalansowanie występuje, gdy proporcja między klasami
-maleje i może przekroczyć nawet 1:1000. Problemy wynikające z niezbalansowania klas rosną wraz ze wzrostem tego wskaźnika,
+maleje i może przekroczyć nawet 1:1000\cite{url-inbalanced-datasets}. Problemy wynikające z niezbalansowania klas rosną wraz ze wzrostem tego wskaźnika,
 co wymaga zastosowania specjalnych rozwiązań dla efektywnego uczenia modelu i jego klasyfikacji.
 Nasza praca ma na celu wykorzystanie selekcji cech w celu poprawy jakości etykiet generowanych przez istniejącą już metodologię,
 która została specjalnie zaprojektowana do radzenia sobie z wyzwaniami związanymi z brakiem etykiet i wysokim niezbalansowaniem klas.
 Realizowane jest to poprzez nienadzorowane generowanie nowych etykiet przy użyciu wyłącznie najważniejszych cech.
 
-Zazwyczaj proces selekcji cech ma charakter nadzorowany. Nasza praca skupia się jednak na nienadzorowanym scenariuszu,
-stąd potrzebna jest nienadzorowana technika wyboru cech. Algorytm SHapley Additive exPlanations (SHAP) oferuje solidną metodę
+Zazwyczaj proces selekcji cech ma charakter nadzorowany. Nasze badanie skupia się jednak na nienadzorowanym scenariuszu,
+stąd potrzebna jest nienadzorowana technika wyboru cech. Algorytm SHapley Additive Explanations (SHAP)\cite{url-SHAP} oferuje solidną metodę
 selekcji cech, dostarczając ranking ich ważności, który może być zastosowany niezależnie od tego, czy dane mają już etykiety, czy nie.
 W przypadku scenariusza z danymi bez etykiet, na którym skupiamy się w tej pracy, najpierw algorytm nienadzorowany jest
-trenowany na zbiorze danych, a następnie funkcja SHAP kernel explainer oraz funkcja wartości SHAP są używane do ułożenia cech
-według ich ważności. Wykorzystując wyniki modelu nienadzorowanego, Isolation Forest, podejście to zapewnia opłacalny
+trenowany na zbiorze danych, a następnie funkcja SHAP kernel explainer\cite{url-kernel-explainer} oraz funkcja wartości SHAP są używane do ułożenia cech
+według ich ważności. Wykorzystując wyniki modelu nienadzorowanego, Isolation Forest\cite{url-IF}, podejście to zapewnia opłacalny
 sposób na przeprowadzenie selekcji cech, gdy gotowe etykiety są niedostępne.
 Aby ocenić, czy dobór cech z pomocą SHAP poprawia jakość wygenerowanych etykiet, zastosowaliśmy to rozwiązanie do
-powszechnie używanego i publicznie dostępnego zbioru danych Credit Card Fraud Detection, który jest jedynym publicznie
+powszechnie używanego i publicznie dostępnego zbioru danych Credit Card Fraud Detection\cite{url-kaggle-dataset}, który jest jedynym publicznie
 dostępnym zestawem rzeczywistych danych tego rodzaju.
 
 Używamy algorytmu SHAP w sposób nienadzorowany, aby przeprowadzić selekcję cech i stworzyć
@@ -91,25 +91,27 @@ Zapewniamy empiryczne wyniki mierzące jakość etykiet i porównujemy je
 z nienadzorowanym modelem bazowym, jakim jest algorytm Isolation Forest (IF).
 
 Wykorzystanie technik uczenia maszynowego do analizowania takich danych jest kluczowe z kilku powodów.
-Skala oszustw związanych z kartami kredytowymi jest ogromna, co każdego roku generuje globalne straty rzędu miliardów dolarów.
+Skala oszustw związanych z kartami kredytowymi jest ogromna, w samym 2024 roku z powodu oszustw kart kredytowych stracono 33 miliardy dolarów\cite{url-fraud-money}.
 Wywiera to znaczną presję finansową na gospodarkę i prowadzi do wzrostu kosztów dla wszystkich użytkowników kart.
 Postęp w uczeniu maszynowym może pomóc zmniejszyć te straty, umożliwiając szybsze i dokładniejsze wykrywanie przypadków nieuczciwego użycia kart.
 Ponadto, uczenie maszynowe oferuje korzyści z zakresu szybkości i jest w stanie zidentyfikować wzorce, które można przeoczyć w toku manualnej analizy.
 
-\section{Metodologia}
-\subsection{}
-\section{Analiza wyników}
+\section*{Metodologia}
 
-\section{Dyskusja}
+\section*{Analiza wyników}
 
-
+\section*{Dyskusja}
 
 \begin{thebibliography}{8}
-\bibitem{ref-main-article}
+\bibitem{article-main}
 Kennedy, R.K.L., Villanustre, F., Khoshgoftaar, T.M.:
 Unsupervised feature selection and class labeling for credit card fraud.
 \textit{Journal of Big Data} \textbf{12}, 111 (2025).
 \doi{10.1186/s40537-025-01154-1}
+
+% biblioteke dziele na 2 bloki, jedne z wyjasnieniem co do samej metodologii i artykuly do wyjasnienia rzeczy cytowanych 
+% dane z interentu jako url-xxx, artykuly jako article-xxx etc.
+% jezeli trzeba bedzie ja w kolejnosci alfabetycznej to to ogarne
 
 \bibitem{url-AUPRC}
 Wyjaśnienie terminu AUPRC, \url{https://glassboxmedicine.com/2019/03/02/measuring-performance-auprc/}. Stan na 04.06.2026
@@ -132,6 +134,18 @@ Zbiór danych, \url{https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud}. St
 \bibitem{url-keras}
 Dokumentacja biblioteki keras, \url{https://keras.io}. Stan na 04.06.2026
 
+\bibitem{url-kernel-explainer}
+Dokumentacja metody KernelExplainer, \url{https://shap.readthedocs.io/en/latest/generated/shap.KernelExplainer.html}. Stan na 04.06.2026
+
+
+% \bibitem{}
+
+% \bibitem{}
+
+% \bibitem{}
+
+% \bibitem{}
+
 % \bibitem{}
 
 % \bibitem{}
@@ -143,5 +157,15 @@ Dokumentacja biblioteki keras, \url{https://keras.io}. Stan na 04.06.2026
 % \bibitem{}
 
 % \bibitem{}
+
+% \bibitem{}
+
+% \bibitem{}
+
+\bibitem{url-inbalanced-datasets}
+Czym są niezbalansowane dane klasyfikacyjne i związane z nimi problemy? \url{https://miroslawmamczur.pl/niezbalansowane-dane/}. Stan na 04.06.2026
+
+\bibitem{url-fraud-money}
+How much money is lost to credit card fraud globally? \url{https://thebestvpn.com/statistics/how-much-money-is-lost-to-credit-card-fraud-globally/}. Stan na 04.06.2026
 \end{thebibliography}
 \end{document}
