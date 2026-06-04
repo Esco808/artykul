@@ -23,10 +23,10 @@ Paweł Ostrowski}
 %
 \begin{abstract}
 Duże oraz niezbalansowane zbiory danych wymagają dużej mocy obliczeniowej, czasu oraz dostępu do etykietowanych zbiorów.
-W~przypadku transakcji bankowych dochodzą jeszcze kwestie prywatności danych oraz brak balansu oszustw do realnych transakcji w zbiorze danych.
-W tym badaniu przedstawiamy podejście nauki oraz wykrywania poprzez model sztucznej inteligencji, która korzysta z etykiet
-wygenerowanych przez Shapley Additive exPlantations (SHAP) w celu wyłonienia najważniejszych etykiet z autoenkoderem
-do wygenerowania etykiet w celu wykrywania nieprawidłowości w transakcjach. Wykorzystując publiczny dataset utworzyliśmy
+W przypadku transakcji bankowych dochodzą jeszcze kwestie prywatności danych oraz brak balansu oszustw do realnych transakcji w zbiorze danych.
+W ninejszym badaniu przedstawiamy podejście nauki oraz wykrywania poprzez model sztucznej inteligencji, która korzysta z rankingu etykiet
+wygenerowanych przez Shapley Additive Explantations (SHAP) w celu wyłonienia najważniejszych etykiet ze zbioru danych dla autoenkodera
+w celu wygenerowania etykiet do wykrywania nieprawidłowości w transakcjach. Wykorzystując publiczny zbiór danych utworzyliśmy
 zbiory danych o różnych wielkościach, ze względu na ilość etykiet, wygenerowaliśmy dla nich etykiety i obliczyliśmy ich precyzję
 oraz trafność za pomocą Area Under the Precision-Recall Curve (AUPRC). Wyniki analizy ukazały, że wykorzystanie etykiet z SHAP
 pozwala na osiągnięcie znacznie lepszych wyników niż nauka na całym zbiorze danych poprzez model Isolation Forest (IF),
