@@ -1,4 +1,3 @@
-
 \documentclass[runningheads]{llncs}
 %
 \usepackage{url}
@@ -9,28 +8,24 @@
 
 \begin{document}
 %
-\title{Analiza porównawczna nienadzorowanego wykrywania metod oszustw kredytowych}
+\title{Analiza porównawcza metod nienadzorowanego wykrywania oszustw z kartami kredytowymi}
 
 %
-\author{Szymon Oleszek\inst{1}\orcidID{0000-1111-2222-3333} \and
-Maciej Ołdakowski\inst{2}\orcidID{1111-2222-3333-4444} \and
-Paweł Ostrowski†\inst{3}\orcidID{2222--3333-4444-5555}}
+\author{Szymon Oleszek\and
+Maciej Ołdakowski\and
+Paweł Ostrowski}
 %
 
-\institute{Politechnika Lubelska \and
-\email{lncs@springer.com}\\
-\url{http://www.springer.com/gp/computer-science/lncs} \and
-ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
-\email{\{abc,lncs\}@uni-heidelberg.de}}
+\institute{Politechnika Lubelska}
 %
 \maketitle              
 %
 \begin{abstract}
-Duże oraz niezbalansowane zbiory danych wymagają dużej mocy obliczniowej, czasu oraz dostępu do etykietowanych zbiorów. W przypadku transakcji bankowych dochodzą jeszcze kwestia prywatności danych oraz brak balansu oszustw do realnych transakcji w zbiorze danych. W tym badaniu przedstawiamy podejście nauki oraz wykrywania poprzez model sztucznej inteligencji, która korzysta z etykiet wygenerowanych przez Shapley Additive exPlantations (SHAP) w celu wyłonienia najważniejszych etykiet z autoenkoderem do wygenerowania etykiet w celu wykrywania nieprawidłowości w transakcjach. Wykorzystując publiczny dataset utworzyliśmy zbiory danych o różnych wielkościach, ze względu na ilość etykiet, wygenerowaliśmy dla nich etykiety i obliczyliśmy ich precyzję oraz trafność za pomocą Area Under the Precision-Recall Curve (AUPRC). Wyniki analizy ukazały, że wykorzystanie etykiet z SHAP pozwala na osiągnięcie znacznie lepszych wyników niż nauka na calym zbiorze danych poprzez model Isolation Forest (IF), którego użyto jako model porównawczy. Pokazuje nam to, że do dużych, niezbalanoswanych zbiorów, generowanie etykiet poprzez SHAP zwiększa jakość etykiet do wykrywania oszustw. Takie podejście pozwala na dokladniejsze wykrywanie potencjalnych oszustw w duzych niezbalansowanych zbiorach danych transakcji bankowych.
+Duże oraz niezbalansowane zbiory danych wymagają dużej mocy obliczeniowej, czasu oraz dostępu do etykietowanych zbiorów. W przypadku transakcji bankowych dochodzą jeszcze kwestie prywatności danych oraz brak balansu oszustw do realnych transakcji w zbiorze danych. W tym badaniu przedstawiamy podejście nauki oraz wykrywania poprzez model sztucznej inteligencji, która korzysta z etykiet wygenerowanych przez Shapley Additive exPlantations (SHAP) w celu wyłonienia najważniejszych etykiet z autoenkoderem do wygenerowania etykiet w celu wykrywania nieprawidłowości w transakcjach. Wykorzystując publiczny dataset utworzyliśmy zbiory danych o różnych wielkościach, ze względu na ilość etykiet, wygenerowaliśmy dla nich etykiety i obliczyliśmy ich precyzję oraz trafność za pomocą Area Under the Precision-Recall Curve (AUPRC). Wyniki analizy ukazały, że wykorzystanie etykiet z SHAP pozwala na osiągnięcie znacznie lepszych wyników niż nauka na calym zbiorze danych poprzez model Isolation Forest (IF), którego użyto jako model porównawczy. Pokazuje nam to, że do dużych, niezbalanoswanych zbiorów, generowanie etykiet poprzez SHAP zwiększa jakość etykiet do wykrywania oszustw. Takie podejście pozwala na dokładniejsze wykrywanie potencjalnych oszustw w dużych niezbalansowanych zbiorach danych transakcji bankowych.
 
 \keywords{SHAP \and Wykrywanie oszustw transakcji bankowych \and Uczenie nienadzorowane \and Uczenie nadzorowane}
 \end{abstract}
-\
+
 \section{Wprowadzenie}
 \subsection{A Subsection Sample}
 Please note that the first paragraph of a section or subsection is
@@ -77,22 +72,22 @@ Co to jest regresja liniowa?, \url{https://www.ibm.com/think/topics/linear-regre
 \bibitem{url-RF}
 Co to jest las losowy?, \url{https://www.ibm.com/think/topics/random-forest}. Stan na 04.06.2026
 
-\bibitem{url-keggle-dataset}
+\bibitem{url-kaggle-dataset}
 Zbiór danych, \url{https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud}. Stan na 04.06.2026
 
 \bibitem{url-keras}
 Dokumentacja biblioteki keras, \url{https://keras.io}. Stan na 04.06.2026
 
-\bibitem{}
+% \bibitem{}
 
-\bibitem{}
+% \bibitem{}
 
-\bibitem{}
+% \bibitem{}
 
-\bibitem{}
+% \bibitem{}
 
-\bibitem{}
+% \bibitem{}
 
-\bibitem{}
+% \bibitem{}
 \end{thebibliography}
 \end{document}
