@@ -138,6 +138,16 @@ nie używamy oryginalnych etykiet klas, co jest kluczowe dla zachowania nienadzo
 Ostatecznym wynikiem naszej metodologii są zbiory danych o zredukowanej przez SHAP liczbie cech wraz z nowo wygenerowanymi etykietami klas. 
 W naszych eksperymentach przygotowaliśmy 9 oddzielnych zbiorów danych, będących kombinacją zestawów 10, 15 i 29 cech oraz wartości parametru P ustawionych na 500, 1000 i 1500.
 
+Aby ocenić jakość i skuteczność wygenerowanych przez nas etykiet, wykorzystujemy klasyfikatory nadzorowane jako narzędzie pomiarowe.
+Wyróżniamy dziewięć wariantów zbiorów danych, które stanowią kombinację wybranych zestawów cech (top 10, top 15 oraz wszystkie 29) oraz trzech różnych wartości parametru P (500, 1000 i 1500), określającego liczbę instancji oznaczonych jako oszustwa.
+Jako główną metrykę wydajności przyjmujemy obszar pod krzywą precyzji i pełności (AUPRC), który jest znacznie bardziej miarodajny w przypadku danych o wysokim niezrównoważeniu niż standardowa krzywa ROC.
+Uzyskane wyniki porównujemy z nienadzorowanym modelem bazowym Isolation Forest (IF).
+
+Choć oryginalne założenia metodologiczne przewidują użycie czterech algorytmów (Drzew Decyzyjnych, Lasów Losowych, Regresji Logistycznej oraz sieci MLP), 
+w naszej pracy - ze względu na ograniczenia sprzętowe i czasowe oraz w celu zapewnienia pełnej odtwarzalności badań - decydujemy się ograniczyć liczbę klasyfikatorów nadzorowanych do dwóch: Random Forest (RF) oraz Regresji Logistycznej (LR), wyłączając z analizy Drzewa Decyzyjne (DT) oraz sieć neuronową (MLP).
+Całość procedury testowej opieramy na rygorystycznym schemacie 10 rund 5-krotnej walidacji krzyżowej.
+Taka struktura eksperymentu pozwala nam na przeprowadzenie szczegółowej analizy statystycznej przy użyciu dwuczynnikowej analizy wariancji (ANOVA) oraz testu porównań parzystych Tukey HSD.
+
 \section{Analiza wyników}
 
 \section{Dyskusja}
