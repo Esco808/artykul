@@ -6,10 +6,11 @@
 \usepackage{lmodern}
 \usepackage{graphicx}
 \usepackage{microtype}
+\usepackage{amsmath}
 
 \begin{document}
 %
-\title{Analiza porównawcza metod nienadzorowanego wykrywania oszustw z kartami kredytowymi}
+\title{Porównanie nienadzorowanych metod detekcji oszustw kartowych}
 
 %
 \author{Szymon Oleszek\and
@@ -149,6 +150,64 @@ Całość procedury testowej opieramy na rygorystycznym schemacie 10 rund 5-krot
 Taka struktura eksperymentu pozwala nam na przeprowadzenie szczegółowej analizy statystycznej przy użyciu dwuczynnikowej analizy wariancji (ANOVA) oraz testu porównań parzystych Tukey HSD.
 
 \section{Analiza wyników}
+Tabela~\ref{tab1} przedstawia jakość wygenerowanych etykiet klas przez autoenkoder.
+Jakość jest mierzona precyzją, czułością oraz F1-Score dla różnych kombinacji zestawów cech i wartości parametru P.
+Precyzja jest definiowana jako stosunek prawdziwych pozytywów do sumy prawdziwych i fałszywych pozytywów,
+czułość (recall) to stosunek prawdziwych pozytywów do sumy prawdziwych pozytywów i fałszywych negatywów,
+a F1-Score to średnia harmoniczna precyzji i czułości:
+\begin{equation}
+F_1 = 2 \cdot \frac{\text{Precyzja} \cdot \text{Czułość}}{\text{Precyzja} + \text{Czułość}}
+\end{equation}
+
+\begin{table}
+\caption{Jakość wygenerowanych etykiet klas}\label{tab1}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}|l|r|r|r|r|r|}
+\hline
+\multicolumn{1}{|l|}{Zestaw Cech} & \multicolumn{1}{l|}{P} & \multicolumn{1}{l|}{Poprawnie wykryte oszustwa} & \multicolumn{1}{l|}{Precyzja} & \multicolumn{1}{l|}{Czułość} & \multicolumn{1}{l|}{F1-Score} \\
+\hline
+Top 29 & 500 & 146 & 29.2\% & 29.7\% & 29.4\%\\
+Top 29 & 1000 & 211 & 21.1\% & 42.9\% & 28.3\%\\
+Top 29 & 1500 & 276 & 18.4\% & 56.1\% & 27.6\%\\
+Top 15 & 500 & 113 & 22.6\% & 23.0\% & 22.2\%\\
+Top 15 & 1000 & 144 & 14.4\% & 29.3\% & 17.6\%\\
+Top 15 & 1500 & 184 & 12.3\% & 37.4\% & 15.6\%\\
+Top 10 & 500 & 114 & 22.8\% & 23.2\% & 4.2\%\\
+Top 10 & 1000 & 135 & 13.5\% & 27.4\% & 4.8\%\\
+Top 10 & 1500 & 164 & 11.0\% & 33.5\% & 5.9\%\\
+\hline
+\end{tabular*}
+\end{table}
+
+Tabela~\ref{tab2} przedstawia wyniki badania, mierzone metryką AUPRC, dla różnych kombinacji zestawów cech i wartości parametru P.
+Wyniki te są porównywane z nienadzorowanym modelem bazowym, jakim jest algorytm Isolation Forest (IF).
+AUPRC (Area Under the Precision-Recall Curve) mierzy pole pod wykresem, gdzie na osi X znajduje się czułość (recall), a na osi Y precyzja.
+Wartość AUPRC mieści się w przedziale od 0 do 1, gdzie 1 oznacza idealną klasyfikację, a 0 oznacza najgorszą możliwą klasyfikację.
+Jest to szczególnie użyteczna metryka w przypadku danych o wysokim niezrównoważeniu, ponieważ skupia się na wydajności modelu
+w identyfikowaniu pozytywnych przypadków (oszustw) bez bycia zdominowanym przez dużą liczbę negatywnych przypadków (autentycznych transakcji).
+Warto zaznaczyć, że przy ocenie modelu tą metodą, punktem odniesienia nie będzie 0.5 (jak w przypadku np. AUROC).
+Dla AUPRC, wartość bazowa (baseline) jest równa proporcji pozytywnych przypadków w zbiorze danych. 
+W badanym zbiorze danych oszustwa wynoszą 0.1727\% całości, więc wartość bazowa to 0.001727.
+To oznacza, że każda wartość AUPRC powyżej tej proporcji wskazuje, że model radzi sobie lepiej niż losowe zgadywanie, a im wyższa wartość,
+tym lepsza wydajność modelu w identyfikowaniu oszustw\cite{url-AUPRC}.
+
+\begin{table}
+\caption{Wyniki badania - AUPRC}\label{tab2}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}|l|r|r|r|r|}
+\hline
+\multicolumn{1}{|l|}{Zestaw Cech} & \multicolumn{1}{l|}{P} & \multicolumn{1}{l|}{RF} & \multicolumn{1}{l|}{LR} & \multicolumn{1}{l|}{IF} \\
+\hline
+Top 10 & 500 & 0.2966 & 0.2231 & 0.2160 \\
+Top 10 & 1000 & 0.2901 & 0.2131 & 0.2160 \\
+Top 10 & 1500 & 0.2757 & 0.1805 & 0.2160 \\
+Top 15 & 500 & 0.3703 & 0.2968 & 0.2630 \\
+Top 15 & 1000 & 0.3853 & 0.2623 & 0.2630 \\
+Top 15 & 1500 & 0.3985 & 0.2378 & 0.2630 \\
+Top 29 & 500 & 0.3394 & 0.2301 & 0.2434 \\
+Top 29 & 1000 & 0.3529 & 0.2793 & 0.2434 \\
+Top 29 & 1500 & 0.3569 & 0.3226 & 0.2434 \\
+\hline
+\end{tabular*}
+\end{table}
 
 \section{Dyskusja}
 
