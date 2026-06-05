@@ -45,7 +45,7 @@ Jakość etykiet to ważny czynnik wpływający na wydajność modeli uczenia ma
 Co więcej, znaczna część nowo tworzonych zbiorów danych jest domyślnie pozbawiona etykiet.
 Ta obfitość nieoznakowanych danych stanowi zarówno szansę, jak i wyzwanie dla uczenia maszynowego.
 Chociaż modele uczenia maszynowego często radzą sobie lepiej z większą ilością danych,
-niedobór etykiet klas w dziedzinach takich jak diagnostyka obrazowa w medycynie
+niedobór etykiet klas w dziedzinach takich jak diagnostyka obrazowa w medycynie\cite{article-deep-learning-medical}
 czy wykrywanie oszustw znacznie ogranicza użyteczność modeli nadzorowanych, które do działania wymagają etykiet.
 We wspomnianych dziedzinach dodatkowym problemem jest też prywatność danych, gdyż etykietowanie często wymaga
 przyznania ekspertom dostępu do danych, co może być niemożliwe ze względu na przepisy dotyczące prywatności.
@@ -78,7 +78,7 @@ stąd potrzebna jest nienadzorowana technika wyboru cech. Algorytm SHapley Addit
 selekcji cech, dostarczając ranking ich ważności, który może być zastosowany niezależnie od tego, czy dane mają już etykiety, czy nie.
 W przypadku scenariusza z danymi bez etykiet, na którym skupiamy się w tej pracy, najpierw algorytm nienadzorowany jest
 trenowany na zbiorze danych, a następnie funkcja SHAP kernel explainer\cite{url-kernel-explainer} oraz funkcja wartości SHAP są używane do ułożenia cech
-według ich ważności. Wykorzystując wyniki modelu nienadzorowanego, Isolation Forest\cite{url-IF}, podejście to zapewnia opłacalny
+według ich ważności. Wykorzystując wyniki modelu nienadzorowanego\cite{article-unsupervised-learning}, Isolation Forest\cite{url-IF}, podejście to zapewnia opłacalny
 sposób na przeprowadzenie selekcji cech, gdy gotowe etykiety są niedostępne.
 Aby ocenić, czy dobór cech z pomocą SHAP poprawia jakość wygenerowanych etykiet, zastosowaliśmy to rozwiązanie do
 powszechnie używanego i publicznie dostępnego zbioru danych Credit Card Fraud Detection\cite{url-kaggle-dataset}, który jest jedynym publicznie
@@ -97,10 +97,10 @@ Wywiera to znaczną presję finansową na gospodarkę i prowadzi do wzrostu kosz
 Postęp w uczeniu maszynowym może pomóc zmniejszyć te straty, umożliwiając szybsze i dokładniejsze wykrywanie przypadków nieuczciwego użycia kart.
 Ponadto, uczenie maszynowe oferuje korzyści z zakresu szybkości i jest w stanie zidentyfikować wzorce, które można przeoczyć w toku manualnej analizy.
 
-\section{Metodologia}
+\section*{Metodologia}
 Metodologia opisana w niniejszej pracy została zaprojektowana w celu generowania binarnych etykiet klas dla dużych zbiorów danych o wysokim stopniu niezbalansowania.
 Zastosowanie tej metody do zbiorów zrównoważonych wykracza poza zakres opracowania.
-W naszym podejściu łączymy selekcję cech SHAP z nienadzorowaną metodą etykietowania, aby poprawić jakość generowanych etykiet, co jest pierwszym tego typu badaniem w tej dziedzinie.
+W naszym podejściu łączymy selekcję cech SHAP z nienadzorowaną metodą etykietowania, aby poprawić jakość generowanych etykiet.
 
 Pierwszym krokiem jest nienadzorowane zastosowanie SHAP do wejściowego zbioru danych. Jedną z zalet tego podejścia jest to, że nie wymaga od nas posiadania wiedzy eksperckiej na temat atrybutów danych.
 Jest to szczególnie ważne, ponieważ nasze dane zostały zanonimizowane za pomocą analizy PCA i nie dysponujemy szczegółowymi informacjami o poszczególnych cechach.
@@ -110,46 +110,48 @@ W naszej pracy SHAP zapewnia zarówno interpretowalność globalną, dającą og
 jak i lokalną, która pozwala zrozumieć, jak każda cecha przyczyniła się do konkretnej prognozy.
 W procesie rankingowania cech stosujemy kombinację obu tych podejść, wykorzystując podzbiór danych do obliczenia wartości SHAP.
 Najpierw trenujemy nienadzorowany model Isolation Forest (IF) na całym zbiorze danych, używając wszystkich dostępnych cech, 
-a następnie stosujemy funkcję SHAP kernel explainer wraz z wybraną próbką danych.
+a następnie stosujemy funkcję SHAP kernel explainer\cite{url-kernel-explainer} wraz z wybraną próbką danych.
 Następnie używamy funkcji na innym podzbiorze, aby stworzyć listę atrybutów i ich wartości SHAP, które pokazują wkład każdej cechy w działanie klasyfikatora.
 Ponieważ wartości te mogą być dodatnie lub ujemne, do pomiaru ich wielkości przyjmujemy wartości bezwzględne, a średnia z nich służy nam jako miara istotności cechy.
 
-Po określeniu istotności wszystkich cech wybieramy te najważniejsze zgodnie z ich średnią bezwzględną wartością SHAP.
+Po określeniu istotności wszystkich cech, wybieramy te najważniejsze zgodnie z ich średnią bezwzględną wartością SHAP.
 W naszych badaniach oceniliśmy warianty obejmujące 10, 15 oraz wszystkie 29 cech.
 Nasze podejście do etykietowania opiera się na autoenkoderze jako podstawowym nienadzorowanym modelu, 
 który uczy się wyłącznie na podstawie cech zbioru danych. Po zakończeniu treningu dla każdej instancji obliczamy metrykę błędu i szeregujemy je od najwyższego do najniższego wyniku.
-Błąd rekonstrukcji mierzy różnice między cechami wejściowymi a tymi zrekonstruowanymi przez dekoder autoenkodera.
-Przyjmujemy, że instancje o wyższym błędzie częściej kwalifikują się jako oszustwa, podczas gdy te o niższym błędzie to transakcje autentyczne, 
-co pozwala szeregować przypadki od najbardziej do najmniej podejrzanych.
+Błąd rekonstrukcji mierzy różnice między cechami wejściowymi a tymi zrekonstruowanymi przez dekoder autoenkodera\cite{article-autoencoder}.
+Przyjmujemy, że instancje o wyższym błędzie częściej kwalifikują się jako oszustwa, podczas gdy te o niższym błędzie to transakcje autentyczne, co pozwala sortować przypadki od najbardziej do najmniej podejrzanych.
 Ustalamy próg, powyżej którego instancje etykietujemy jako oszustwa, a pozostałe jako transakcje autentyczne. Całkowitą liczbę instancji oznaczonych jako pozytywne określamy jako P.
 Zakładamy, że wraz ze wzrostem wartości P będziemy generować etykiety lepszej jakości.
 
-W naszej pracy stosujemy w pełni połączony autoenkoder, który świetnie sprawdza się przy niezrównoważonych danych. 
+\subsection*{Autoenkoder}
+W naszej pracy stosujemy w pełni połączony autoenkoder\cite{article-autoencoder-imbalanced}, który świetnie sprawdza się przy niezrównoważonych danych. 
 Podczas treningu enkoder uczy się kompresować dane wejściowe do reprezentacji o niższym wymiarze, a dekoder próbuje ją zrekonstruować do oryginalnej formy.
 Do pomiaru różnic między wejściem a wyjściem używamy błędu średniokwadratowego (MSE), który definiujemy jako średnią kwadratów różnic między wartościami rzeczywistymi a przewidywanymi.
 MSE oznaczamy jako \(MSE = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{x}_i)^2\), gdzie \(n\) oznacza liczbę obserwacji, 
 \(x_i\) jest \(i\)-tym elementem wejściowego wektora danych \(x\), a \(\hat{x}_i\) jest \(i\)-tym elementem wektora zrekonstruowanego przez autoenkoder.
 Autoenkoder trenujemy metodą wstecznej propagacji błędu, korygując wagi między neuronami tak, aby zminimalizować funkcję celu. Warstwa wejściowa ma rozmiar odpowiadający liczbie cech (10, 15 lub 29), 
-a sekcja enkodera składa się z dwóch warstw ukrytych o rozmiarach 100 i 50 neuronów z funkcją aktywacji ReLU
+a sekcja enkodera składa się z dwóch warstw ukrytych o rozmiarach 100 i 50 neuronów z funkcją aktywacji ReLU.
 
 Nasz model trenujemy przy współczynniku uczenia 0,0001, rozmiarze partii 256, używając optymalizatora Adam i funkcji straty MSE. 
 Wydzielamy 20\% danych jako zestaw walidacyjny i monitorujemy stratę treningową za pomocą funkcji EarlyStopping z cierpliwością ustawioną na 25 epok (maksymalnie do 250 epok).
-Do budowy i treningu sieci wykorzystujemy bibliotekę Keras. Podkreślamy, że zarówno na etapie selekcji cech SHAP, jak i w procesie działania autoenkodera, 
+Do budowy i treningu sieci wykorzystujemy bibliotekę Keras\cite{url-keras}. Podkreślamy, że zarówno na etapie selekcji cech SHAP, jak i w procesie działania autoenkodera, 
 nie używamy oryginalnych etykiet klas, co jest kluczowe dla zachowania nienadzorowanego charakteru metody.
 Ostatecznym wynikiem naszej metodologii są zbiory danych o zredukowanej przez SHAP liczbie cech wraz z nowo wygenerowanymi etykietami klas. 
 W naszych eksperymentach przygotowaliśmy 9 oddzielnych zbiorów danych, będących kombinacją zestawów 10, 15 i 29 cech oraz wartości parametru P ustawionych na 500, 1000 i 1500.
 
+
+\subsection*{Ocena wygenerowanych etykiet}
 Aby ocenić jakość i skuteczność wygenerowanych przez nas etykiet, wykorzystujemy klasyfikatory nadzorowane jako narzędzie pomiarowe.
 Wyróżniamy dziewięć wariantów zbiorów danych, które stanowią kombinację wybranych zestawów cech (top 10, top 15 oraz wszystkie 29) oraz trzech różnych wartości parametru P (500, 1000 i 1500), określającego liczbę instancji oznaczonych jako oszustwa.
 Jako główną metrykę wydajności przyjmujemy obszar pod krzywą precyzji i pełności (AUPRC), który jest znacznie bardziej miarodajny w przypadku danych o wysokim niezrównoważeniu niż standardowa krzywa ROC.
 Uzyskane wyniki porównujemy z nienadzorowanym modelem bazowym Isolation Forest (IF).
 
 Choć oryginalne założenia metodologiczne przewidują użycie czterech algorytmów (Drzew Decyzyjnych, Lasów Losowych, Regresji Logistycznej oraz sieci MLP), 
-w naszej pracy - ze względu na ograniczenia sprzętowe i czasowe oraz w celu zapewnienia pełnej odtwarzalności badań - decydujemy się ograniczyć liczbę klasyfikatorów nadzorowanych do dwóch: Random Forest (RF) oraz Regresji Logistycznej (LR), wyłączając z analizy Drzewa Decyzyjne (DT) oraz sieć neuronową (MLP).
+w naszej pracy - ze względu na ograniczenia sprzętowe i czasowe decydujemy się ograniczyć liczbę klasyfikatorów nadzorowanych do dwóch: Random Forest (RF)\cite{article-random-forest} oraz Regresji Logistycznej (LR), wyłączając z analizy Drzewa Decyzyjne (DT) oraz sieć neuronową (MLP).
 Całość procedury testowej opieramy na rygorystycznym schemacie 10 rund 5-krotnej walidacji krzyżowej.
 Taka struktura eksperymentu pozwala nam na przeprowadzenie szczegółowej analizy statystycznej przy użyciu dwuczynnikowej analizy wariancji (ANOVA) oraz testu porównań parzystych Tukey HSD.
 
-\section{Analiza wyników}
+\section*{Analiza wyników}
 Tabela~\ref{tab1} przedstawia jakość wygenerowanych etykiet klas przez autoenkoder.
 Jakość jest mierzona precyzją, czułością oraz F1-Score dla różnych kombinacji zestawów cech i wartości parametru P.
 Precyzja jest definiowana jako stosunek prawdziwych pozytywów do sumy prawdziwych i fałszywych pozytywów,
@@ -181,14 +183,14 @@ Top 10 & 1500 & 164 & 11.0\% & 33.5\% & 5.9\%\\
 Tabela~\ref{tab2} przedstawia wyniki badania, mierzone metryką AUPRC, dla różnych kombinacji zestawów cech i wartości parametru P.
 Wyniki te są porównywane z nienadzorowanym modelem bazowym, jakim jest algorytm Isolation Forest (IF).
 AUPRC (Area Under the Precision-Recall Curve) mierzy pole pod wykresem, gdzie na osi X znajduje się czułość (recall), a na osi Y precyzja.
-Wartość AUPRC mieści się w przedziale od 0 do 1, gdzie 1 oznacza idealną klasyfikację, a 0 oznacza najgorszą możliwą klasyfikację.
+Wartość AUPRC\cite{url-AUPRC} mieści się w przedziale od 0 do 1, gdzie 1 oznacza idealną klasyfikację, a 0 oznacza najgorszą możliwą klasyfikację.
 Jest to szczególnie użyteczna metryka w przypadku danych o wysokim niezrównoważeniu, ponieważ skupia się na wydajności modelu
 w identyfikowaniu pozytywnych przypadków (oszustw) bez bycia zdominowanym przez dużą liczbę negatywnych przypadków (autentycznych transakcji).
 Warto zaznaczyć, że przy ocenie modelu tą metodą, punktem odniesienia nie będzie 0.5 (jak w przypadku np. AUROC).
 Dla AUPRC, wartość bazowa (baseline) jest równa proporcji pozytywnych przypadków w zbiorze danych. 
 W badanym zbiorze danych oszustwa wynoszą 0.1727\% całości, więc wartość bazowa to 0.001727.
 To oznacza, że każda wartość AUPRC powyżej tej proporcji wskazuje, że model radzi sobie lepiej niż losowe zgadywanie, a im wyższa wartość,
-tym lepsza wydajność modelu w identyfikowaniu oszustw\cite{url-AUPRC}.
+tym lepsza wydajność modelu w identyfikowaniu oszustw.
 
 \begin{table}
 \caption{Wyniki badania - AUPRC}\label{tab2}
@@ -209,7 +211,7 @@ Top 29 & 1500 & 0.3569 & 0.3226 & 0.2434 \\
 \end{tabular*}
 \end{table}
 
-\section{Dyskusja}
+\section*{Dyskusja}
 
 \begin{thebibliography}{8}
 \bibitem{article-main}
@@ -218,9 +220,38 @@ Unsupervised feature selection and class labeling for credit card fraud.
 \textit{Journal of Big Data} \textbf{12}, 111 (2025).
 \doi{10.1186/s40537-025-01154-1}
 
+\bibitem{article-random-forests}
+Breiman, L.:
+Random forests.
+\textit{Machine Learning} \textbf{45}, 5--32 (2001).
+
+\bibitem{article-autoencoder-imbalanced}
+Wan, Z., Zhang, Y., He, H.:
+Variational autoencoder based synthetic data generation for imbalanced learning.
+In: \textit{2017 IEEE Symposium Series on Computational Intelligence (SSCI)},
+pp. 1--7. IEEE (2017).
+
+\bibitem{article-autoencoder}
+Ng, A., et al.:
+Sparse autoencoder.
+\textit{CS294A Lecture Notes} \textbf{72}(2011), 1--19 (2011).
+
+\bibitem{article-unsupervised-learning}
+Xie, J., Girshick, R., Farhadi, A.:
+Unsupervised deep embedding for clustering analysis.
+In: \textit{Proceedings of the International Conference on Machine Learning},
+pp. 478--487. PMLR (2016).
+
+\bibitem{article-deep-learning-medical}
+Litjens, G., Kooi, T., Bejnordi, B.E., Setio, A., Ciompi, F.,
+Ghafoorian, M., Van Der Laak, J.A., Van Ginneken, B., Sánchez, C.I.:
+A survey on deep learning in medical image analysis.
+\textit{Medical Image Analysis} \textbf{42}, 60--88 (2017).
+
+
 % biblioteke dziele na 2 bloki, jedne z wyjasnieniem co do samej metodologii i artykuly do wyjasnienia rzeczy cytowanych 
 % dane z interentu jako url-xxx, artykuly jako article-xxx etc.
-% jezeli trzeba bedzie ja w kolejnosci alfabetycznej to to ogarne
+% jezeli trzeba bedzie ja w kolejnosci alfabetycznej to to ogarn
 
 \bibitem{url-AUPRC}
 Wyjaśnienie terminu AUPRC, \url{https://glassboxmedicine.com/2019/03/02/measuring-performance-auprc/}. Stan na 04.06.2026
@@ -246,30 +277,8 @@ Dokumentacja biblioteki keras, \url{https://keras.io}. Stan na 04.06.2026
 \bibitem{url-kernel-explainer}
 Dokumentacja metody KernelExplainer, \url{https://shap.readthedocs.io/en/latest/generated/shap.KernelExplainer.html}. Stan na 04.06.2026
 
-
-% \bibitem{}
-
-% \bibitem{}
-
-% \bibitem{}
-
-% \bibitem{}
-
-% \bibitem{}
-
-% \bibitem{}
-
-% \bibitem{}
-
-% \bibitem{}
-
-% \bibitem{}
-
-% \bibitem{}
-
-% \bibitem{}
-
-% \bibitem{}
+\bibitem{url-mean-squared-error}
+Wyjaśnienie terminu błędu średniokwadratowego, \url{https://apxml.com/courses/basics-model-evaluation-metrics/chapter-3-metrics-for-regression/mse-metric}. Stan na 05.06.2026
 
 \bibitem{url-inbalanced-datasets}
 Czym są niezbalansowane dane klasyfikacyjne i związane z nimi problemy? \url{https://miroslawmamczur.pl/niezbalansowane-dane/}. Stan na 04.06.2026
