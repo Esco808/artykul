@@ -143,7 +143,12 @@ W naszych eksperymentach przygotowaliśmy 9 oddzielnych zbiorów danych, będąc
 \subsection*{Ocena wygenerowanych etykiet}
 Aby ocenić jakość i skuteczność wygenerowanych przez nas etykiet, wykorzystujemy klasyfikatory nadzorowane jako narzędzie pomiarowe.
 Wyróżniamy dziewięć wariantów zbiorów danych, które stanowią kombinację wybranych zestawów cech (top 10, top 15 oraz wszystkie 29) oraz trzech różnych wartości parametru P (500, 1000 i 1500), określającego liczbę instancji oznaczonych jako oszustwa.
-Jako główną metrykę wydajności przyjmujemy obszar pod krzywą precyzji i pełności (AUPRC), który jest znacznie bardziej miarodajny w przypadku danych o wysokim niezrównoważeniu niż standardowa krzywa ROC.
+Jako główną metrykę wydajności przyjmujemy obszar pod krzywą precyzji i czułości (AUPRC), który jest znacznie bardziej miarodajny w przypadku danych o wysokim niezrównoważeniu niż obszar pod krzywą ROC (AUROC).
+Krzywa ROC przedstawia zależność między odsetkiem poprawnie wykrytych przypadków pozytywnych (TPR) a odsetkiem przypadków negatywnych błędnie uznanych za pozytywne (FPR).
+W analizowanym problemie klasa negatywna, czyli autentyczne transakcje, jest jednak wielokrotnie liczniejsza od klasy oszustw.
+Ponieważ mianownik FPR obejmuje wszystkie przypadki negatywne, nawet duża bezwzględna liczba fałszywych alarmów może odpowiadać niewielkiej wartości FPR, a tym samym prowadzić do pozornie wysokiego wyniku AUROC.
+Krzywa precyzja--czułość pomija liczbę prawdziwie negatywnych przypadków i bezpośrednio opisuje kompromis między odsetkiem wykrytych oszustw a udziałem rzeczywistych oszustw wśród wszystkich transakcji oznaczonych przez model jako podejrzane.
+Z tego względu AUPRC lepiej odzwierciedla zarówno zdolność modelu do wykrywania rzadkiej klasy pozytywnej, jak i praktyczny koszt generowania fałszywych alarmów, dlatego stosujemy ją jako główną metrykę porównawczą.
 Uzyskane wyniki porównujemy z nienadzorowanym modelem bazowym Isolation Forest (IF).
 
 Choć oryginalne założenia metodologiczne przewidują użycie czterech algorytmów (Drzew Decyzyjnych, Lasów Losowych, Regresji Logistycznej oraz sieci MLP), 
