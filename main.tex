@@ -170,12 +170,12 @@ F_1 = 2 \cdot \frac{\text{Precyzja} \cdot \text{Czułość}}{\text{Precyzja} + \
 Top 29 & 500 & 146 & 29.2\% & 29.7\% & 29.4\%\\
 Top 29 & 1000 & 211 & 21.1\% & 42.9\% & 28.3\%\\
 Top 29 & 1500 & 276 & 18.4\% & 56.1\% & 27.6\%\\
-Top 15 & 500 & 113 & 22.6\% & 23.0\% & 22.2\%\\
-Top 15 & 1000 & 144 & 14.4\% & 29.3\% & 17.6\%\\
-Top 15 & 1500 & 184 & 12.3\% & 37.4\% & 15.6\%\\
-Top 10 & 500 & 114 & 22.8\% & 23.2\% & 4.2\%\\
-Top 10 & 1000 & 135 & 13.5\% & 27.4\% & 4.8\%\\
-Top 10 & 1500 & 164 & 11.0\% & 33.5\% & 5.9\%\\
+Top 15 & 500 & 113 & 22.6\% & 23.0\% & 22.8\%\\
+Top 15 & 1000 & 144 & 14.4\% & 29.3\% & 19.3\%\\
+Top 15 & 1500 & 184 & 12.3\% & 37.4\% & 18.5\%\\
+Top 10 & 500 & 114 & 22.8\% & 23.2\% & 23.0\%\\
+Top 10 & 1000 & 135 & 13.5\% & 27.4\% & 18.1\%\\
+Top 10 & 1500 & 164 & 11.0\% & 33.5\% & 16.6\%\\
 \hline
 \end{tabular*}
 \end{table}
@@ -212,6 +212,20 @@ Top 29 & 1500 & 0.3569 & 0.3226 & 0.2434 \\
 \end{table}
 
 \section*{Dyskusja}
+Przeprowadzone badanie ukazało, że nienadzorowany wybór cech z wykorzystaniem SHAP może poprawić skuteczność wykrywania oszustw kartowych. Skuteczność jest zależna od liczby wybranych cech, wartości parametru P - narzuconej ilości wykryć oszustw modelu oraz zastosowanego klasyfikatora. 
+
+Najlepszy wynik AUPRC uzyskał Random Forest - 0.3985 dla 15 cech i parametru P równego 1500. Wynik ten jest wyższy o około 50\% w porównaniu z modelem bazowym Isolation Forest dla tego samego zestawu cech. Z tego wynika, że liczba atrybutów poprawia skuteczność klasyfikacji modelu oraz wykorzystanie wszystkich dostępnych cech nie zawsze jest optymalnym podejściem do rozwiązania problemu.
+
+Model Random Forest na ogół osiągał lepsze wyniki niż model regresji liniowej. Może to wynikać od konfiguracji eksperymentu, która jest odwzorowana poprzez nasze zrozumienie problemu badawczego. 
+
+Zwiększanie parametru P dla każdego zbioru cech prowadzi do wzrostu czułości modelu, kosztem jego precyzji. Oznacza to, że oznaczenie większej ilości podejrzanych transakcji pozwala wykryć więcej rzeczywistych oszustw kosztem większej liczby fałszywych alarmów. W przypadku bardzo niezbalansowanego zbioru danych takie podejście wydaje się najefektywniejsze.
+
+Uzyskane wyniki wskazują, że połączenie autoenkodera, selekcji cech
+SHAP oraz klasyfikatora Random Forest może stanowić użyteczne
+podejście do analizy silnie niezbalansowanych i pozbawionych
+etykiet zbiorów transakcji. Przed zastosowaniem rozwiązania w praktyce 
+konieczna jest jednak jego walidacja na dodatkowych 
+zbiorach danych oraz dla większej liczby modeli i konfiguracji parametrów.
 
 \begin{thebibliography}{99}
 
