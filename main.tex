@@ -150,6 +150,23 @@ Choć oryginalne założenia metodologiczne przewidują użycie czterech algoryt
 w naszej pracy - ze względu na ograniczenia sprzętowe i czasowe decydujemy się ograniczyć liczbę klasyfikatorów nadzorowanych do dwóch: Random Forest (RF)\cite{article-random-forests} oraz Regresji Logistycznej (LR), wyłączając z analizy Drzewa Decyzyjne (DT) oraz sieć neuronową (MLP).
 Całość procedury testowej opieramy na rygorystycznym schemacie 10 rund 5-krotnej walidacji krzyżowej.
 
+Random Forest jest znamym i szeroko stosowanym modelem nadzorowanym. Składa się z wielu drzew decyzyjnych (DT), gdzie dane są losowane ze zwracaniem. Każde drzewo jest trenowane na innym losowym podzbiorze danych, a ostateczna predykcja jest ustalana na podstawie głosowania większościowego wyników poszczególnych drzew.
+Takie podejście promuje różnorodność wśród poszczególnych drzew, co ma na celu ograniczenie wad charakterystycznych dla pojedynczego drzewa decyzyjnego.
+Kluczową cechą RF jest to, że przy każdym podziale wewnątrz drzewa pod uwagę bierze się losowy podzbiór cech, podczas gdy model DT wykorzystuje wszystkie dostępne atrybuty.
+W rezultacie powstaje wiele drzew, z których każde skupia się na innym, choć potencjalnie pokrywającym się podzbiorze danych, co pozwala na stworzenie modelu bardziej odpornego na przeuczenie (overfitting).
+RF świetnie sprawdza się w przypadku zbiorów o wysokiej wymiarowości, ponieważ nie wymaga wstępnej selekcji cech przed procesem uczenia.
+Ponadto model ten zachowuje poziom interpretowalności właściwy dla zespołów drzew decyzyjnych, oferując jednocześnie miarę istotności cech, która pozwala zidentyfikować atrybuty mające największy wpływ na klasyfikację.
+Wytrzymałość modelu RF zależy od liczby drzew, jednak wraz z ich wzrostem zwiększają się również wymagania obliczeniowe i pamięciowe.
+
+Regresja Logistyczna to kolejny popularny model nadzorowany, który jest szeroko stosowany do zadań klasyfikacji binarnej.
+Model LR ma na celu oszacowanie prawdopodobieństwa przynależności danej instancji wejściowej do określonej klasy poprzez dopasowanie danych do funkcji logistycznej lub sigmoidalnej.
+Chociaż zmienna zależna jest kategorialna, relacja między cechami wejściowymi a tą zmienną jest nieliniowa, co może być modelowane za pomocą logarytmu szans (log-odds).
+Funkcja sigmoidalna ma kształt krzywej typu „S” i mapuje dowolną liczbę rzeczywistą na wartość z przedziału od 0 do 1, co jest niezwykle użyteczne przy szacowaniu prawdopodobieństwa.
+Aby obliczyć przynależność do klasy, model LR tworzy liniową kombinację cech wejściowych i stosuje wobec niej funkcję logistyczną.
+Do przekształcenia uzyskanego prawdopodobieństwa na wynik klasyfikacji stosuje się próg decyzyjny, zazwyczaj ustawiony na poziomie 0,5.
+W przypadku klasyfikacji binarnej, jeśli przewidywane prawdopodobieństwo znajduje się powyżej progu, predykcja przypisywana jest do jednej klasy, a jeśli poniżej - do drugiej.
+Jest to model fundamentalny, który jest szeroko wykorzystywany w wielu domenach, utrzymując swoją istotną rolę w zastosowaniach uczenia maszynowego.
+
 \section*{Analiza wyników}
 Tabela~\ref{tab1} przedstawia jakość wygenerowanych etykiet klas przez autoenkoder.
 Jakość jest mierzona precyzją, czułością oraz F1-Score dla różnych kombinacji zestawów cech i wartości parametru P.
